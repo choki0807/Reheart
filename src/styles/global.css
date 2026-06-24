@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #000000;
+  --color-stroke: #ffffff;
+  --color-stroke-10: rgba(255, 255, 255, 0.1);
+  --color-stroke-90: rgba(255, 255, 255, 0.9);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-bg);
+  color: var(--color-stroke);
+  font-family: 'Courier New', monospace;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  isolation: isolate;
+}
+
+/* 强制1px线条 */
+.svg-stroke-1 {
+  stroke-width: 1px;
+  stroke: var(--color-stroke);
+  stroke-linecap: square;
+}
+
+.svg-fill-transparent {
+  fill: none;
+}
+
+/* 扫描线效果 */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(255, 255, 255, 0.02) 50%
+  );
+  background-size: 100% 4px;
+  opacity: 0.15;
+}
+
+/* 禁用滚动条 */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* 打字机光标 */
+.typewriter-cursor {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  background-color: var(--color-stroke);
+  margin-left: 2px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* 噪声纹理 */
+.glitch-noise {
+  filter: url('#noise-filter');
+}
+
+/* 图片噪点叠加层 - 确保所有场景图片视觉一致性 */
+.scene-image-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  filter: url('#noise-filter');
+  pointer-events: none;
+}
+
+/* 场景图片基础样式 - 暗化+对比度 */
+.scene-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
