@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/Reheart/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>死而替生</title>
+    <link rel="stylesheet" href="/Reheart/loading.css" />
+    <script type="module" crossorigin src="/Reheart/assets/index-DgSCOnHz.js"></script>
+    <link rel="stylesheet" crossorigin href="/Reheart/assets/index-C3vMl5_J.css">
+  </head>
+  <body>
+    <div id="loading-mask">
+      <div class="loading-text">[ 死而替生 ] 系统启动中...</div>
+    </div>
+    <div id="root"></div>
+    <script>
+      // 移除加载遮罩
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const mask = document.getElementById('loading-mask');
+          mask.style.opacity = '0';
+          setTimeout(() => mask.style.display = 'none', 1000);
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
