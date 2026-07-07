@@ -18,7 +18,7 @@ export default function ApiKeySetup({ onComplete }) {
     return () => clearTimeout(timer)
   }, [])
 
-  // 检查是否已有保存的 Key
+  // 检查是否已有保存的 Key（内置 Key 始终可用）
   useEffect(() => {
     if (hasApiKey()) {
       onComplete()
@@ -89,11 +89,13 @@ export default function ApiKeySetup({ onComplete }) {
         {/* 说明 */}
         <div className="text-white/50 font-mono text-sm leading-relaxed mb-8">
           <p className="mb-3">
-            要启用真实的 AI 对话，请输入你的 Kimi API Key。
+            游戏已内置小米 MiMo API Key，可直接体验 AI 对话。
+          </p>
+          <p className="mb-3 text-white/40 text-xs">
+            如需使用自己的 Key，可在下方输入（会覆盖内置 Key）。
           </p>
           <p className="text-white/30 text-xs">
             Key 仅保存在你的浏览器本地，不会上传到任何服务器。
-            如果没有 Key，可以选择跳过，使用模拟模式体验。
           </p>
         </div>
 
@@ -166,7 +168,7 @@ export default function ApiKeySetup({ onComplete }) {
             onClick={handleSkip}
             className="px-4 py-2 text-white/30 font-mono text-sm tracking-wider hover:text-white/60 transition-colors"
           >
-            跳过（模拟模式）
+            使用内置 Key 继续
           </motion.button>
         </div>
 

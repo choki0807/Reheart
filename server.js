@@ -25,7 +25,10 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  let filePath = path.join(DIST_DIR, req.url === '/' ? 'index.html' : req.url);
+  // Parse URL to strip query strings and decode encoded characters
+  const urlObj = new URL(req.url, 'http://localhost');
+  const pathname = decodeURIComponent(urlObj.pathname);
+  let filePath = path.join(DIST_DIR, pathname === '/' ? 'index.html' : pathname);
 
   // Security: prevent directory traversal
   if (!filePath.startsWith(DIST_DIR)) {

@@ -34,8 +34,14 @@ const AUDIT_QUESTIONS = [
     terminal: '这个心脏能卖什么价格？',
     auditStandard: '必须准确报出心脏的市场定价，该信息来源于处置手册。',
     validate: (text) => {
-      const t = text.trim()
-      if (t.includes('500,000') || t.includes('500000') || t.includes('50万') || t.includes('500k') || t.includes('500K')) {
+      const t = text.trim().toLowerCase()
+      // 灵活匹配各种数字表达方式
+      const passPatterns = [
+        '500,000', '500000', '50万', '五十万', '500k', '500kk',
+        '50万$', '五十万$', '50万美元', '五十万美元',
+        '500000$', '500,000$', '50w', '50w$'
+      ]
+      if (passPatterns.some(p => t.includes(p.toLowerCase()))) {
         return { isValid: true, reason: '审计通过：核心资产定价确认 — 500,000$' }
       }
       return { isValid: false, reason: '审计失败：定价数据不匹配。查阅处置手册以获取正确参数。' }
@@ -48,7 +54,13 @@ const AUDIT_QUESTIONS = [
     auditStandard: '必须按照处置手册的标准流程回答：化学降解后投入强酸池。',
     validate: (text) => {
       const t = text.trim()
-      if (t.includes('化学降解') || t.includes('强酸')) {
+      // 灵活匹配处置方式
+      const passPatterns = [
+        '化学降解', '强酸', '酸池', '溶解', '降解',
+        '化学处理', '化学溶解', '强酸溶解', '酸液',
+        '化掉', '融掉', '销毁', '毁尸灭迹'
+      ]
+      if (passPatterns.some(p => t.includes(p))) {
         return { isValid: true, reason: '审计通过：废料处置流程确认 — 化学降解 / 强酸池' }
       }
       return { isValid: false, reason: '审计失败：处置流程不符合规范。查阅处置手册以获取正确参数。' }
@@ -118,15 +130,28 @@ export default function Surgery() {
 
   const performRealAudit = async (text, q) => {
     try {
+      console.log('[AUDIT] 调用 MiMo API 进行审计...')
       const r = await fetchWithTimeout(DEEPSEEK_CONFIG.API_BASE_URL+'/chat/completions',{
         method:'POST',
         headers:{'Authorization':'Bearer '+getApiKey(),'Content-Type':'application/json'},
         body:JSON.stringify(buildAuditRequest(text,q.terminal))
       },15000)
-      if(!r.ok) throw new Error()
-      // 即使使用API，也用本地精准验证覆盖结果
-      return q.validate(text)
+      if(!r.ok) throw new Error(`API请求失败: ${r.status}`)
+      const data = await r.json()
+      const aiResult = parseAuditResponse(data)
+      console.log('[AUDIT] AI 审计结果:', aiResult)
+      // AI 判断通过则直接通过，失败则用本地验证二次确认（防止 AI 误判）
+      if (aiResult.isValid) {
+        return { isValid: true, reason: aiResult.reason || 'AI 审计通过' }
+      }
+      // AI 判断失败时，用本地验证作为兜底（避免 AI 过于严格导致误杀）
+      const localResult = q.validate(text)
+      if (localResult.isValid) {
+        return { isValid: true, reason: '[本地覆写] ' + localResult.reason }
+      }
+      return { isValid: false, reason: aiResult.reason || 'AI 审计未通过' }
     } catch(e) {
+      console.warn('[AUDIT] API 调用失败，回退到本地验证:', e.message)
       return q.validate(text)
     }
   }
