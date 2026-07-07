@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "build:exe": "vite build && pkg server.js --targets node18-win-x64 --output release/死而替生.exe"
+    "build:exe": "vite build && pkg server.js --targets node18-win-x64 --output release/死而替生.exe",
+    "deploy": "vite build && gh-pages -d dist"
   },
   "dependencies": {
     "clsx": "^2.0.0",
@@ -21,6 +22,7 @@
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.16",
+    "gh-pages": "^6.3.0",
     "nexe": "^5.0.0-beta.4",
     "pkg": "^5.8.1",
     "postcss": "^8.4.31",
