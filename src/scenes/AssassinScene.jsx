@@ -4,6 +4,7 @@ import { useGameStore } from '../core/useGameStore'
 import Portrait from '../components/Portrait'
 import RageMeter from '../components/RageMeter'
 import UnderlineInput from '../components/UnderlineInput'
+import { assetPath } from '../core/assetPath'
 import {
   DEEPSEEK_CONFIG,
   SIMULATION_MODE,
@@ -224,7 +225,7 @@ export default function AssassinScene() {
   // 预加载背景图片
   useEffect(() => {
     const img = new Image()
-    img.src = '/assets/scenes/black_market_owner.webp'
+    img.src = assetPath('assets/scenes/black_market_owner.webp')
     img.onload = () => setBgLoaded(true)
     img.onerror = () => setBgLoaded(true) // 即使加载失败也继续
   }, [])
@@ -461,7 +462,7 @@ export default function AssassinScene() {
         style={{ opacity: bgLoaded ? 0.4 : 0 }}
       >
         <img
-          src="/assets/scenes/black_market_owner.webp"
+          src={assetPath('assets/scenes/black_market_owner.webp')}
           alt=""
           className="w-full h-full object-cover"
           style={{ filter: 'grayscale(80%) contrast(1.1) brightness(0.7)' }}

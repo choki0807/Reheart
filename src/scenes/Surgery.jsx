@@ -8,6 +8,7 @@ import DocumentViewer from '../components/DocumentViewer'
 import CluesPanel from '../components/CluesPanel'
 import { DOCUMENTS, HOTSPOTS } from '../data/scripts'
 import { SIMULATION_MODE, getApiKey, hasApiKey, buildAuditRequest, parseAuditResponse, fetchWithTimeout, DEEPSEEK_CONFIG } from '../core/apiConfig'
+import { assetPath } from '../core/assetPath'
 
 /**
  * 审计问题 - 基于文档线索的精准匹配
@@ -186,7 +187,7 @@ export default function Surgery() {
 
       <AnimatePresence>{showSystemFailure && (<motion.div className="absolute inset-0 z-50 flex items-center justify-center bg-black" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}><div className="absolute inset-0" style={{filter:'url(#noise-filter)',opacity:0.3}} /><motion.div className="relative z-10 text-center" animate={{x:[0,-3,3,-1,1,0],opacity:[0.5,1,0.5,1,0.5]}} transition={{duration:0.5,repeat:5}}><div className="text-red-500 font-mono text-2xl tracking-widest mb-4">[SYSTEM_FAILURE]</div><div className="text-red-500/60 font-mono text-sm tracking-wider">身份同步崩溃 - 场景重置中...</div></motion.div>{Array.from({length:5}).map((_,i)=><motion.div key={i} className="absolute left-0 right-0 h-px bg-red-500/30" style={{top:(15+i*18)+'%'}} animate={{scaleX:[0,1,0],opacity:[0,0.5,0]}} transition={{duration:0.3,delay:i*0.1,repeat:3}} />)}</motion.div>)}</AnimatePresence>
 
-      <div className="absolute inset-0" style={{backgroundImage:"url('/assets/scenes/surgery_bg.webp')",backgroundSize:'cover',backgroundPosition:'center'}} />
+      <div className="absolute inset-0" style={{backgroundImage:`url('${assetPath('assets/scenes/surgery_bg.webp')}')`,backgroundSize:'cover',backgroundPosition:'center'}} />
       <AnimatePresence>{auditExpanded ? <motion.div key="dim" className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.4}} /> : <motion.div key="light" className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.4}} />}</AnimatePresence>
 
       {HOTSPOTS.map((hs)=>{const doc=DOCUMENTS[hs.documentKey];const disc=discoveredDocuments.includes(doc?.id);return(<motion.div key={hs.id} className="absolute cursor-pointer z-20" style={hs.position} onClick={()=>handleHotspotClick(hs.documentKey)} whileHover={{borderColor:'rgba(255,255,255,0.15)'}} transition={{duration:0.3}}><div className="w-full h-full border border-transparent hover:border-white/10 transition-colors relative"><motion.div className="absolute inset-0 border border-white/0" animate={{borderColor:['rgba(255,255,255,0)','rgba(255,255,255,0.08)','rgba(255,255,255,0)']}} transition={{repeat:Infinity,duration:4,ease:'easeInOut'}} />{disc && <motion.div className="absolute -top-1 -right-1 w-1 h-1 bg-white/30" animate={{opacity:[0.3,0.8,0.3]}} transition={{repeat:Infinity,duration:2}} />}</div></motion.div>)})}

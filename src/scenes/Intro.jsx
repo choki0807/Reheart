@@ -4,6 +4,7 @@ import { useGameStore } from '../core/useGameStore'
 import WeChatFrame from '../components/WeChatFrame'
 import CatSketch from '../components/CatSketch'
 import Terminal from '../components/Terminal'
+import { assetPath } from '../core/assetPath'
 
 // 根据 prologue.md 的完整序幕阶段定义
 const PHASES = {
@@ -262,7 +263,7 @@ export default function Intro() {
             }}
           >
             <img
-              src="/assets/scenes/portrait_full.webp"
+              src={assetPath('assets/scenes/portrait_full.webp')}
               alt=""
               className="w-full h-full object-cover"
             />
@@ -309,7 +310,7 @@ export default function Intro() {
                 transition={{ duration: 2 }}
               >
                 <img
-                  src="/assets/scenes/death_moment.webp"
+                  src={assetPath('assets/scenes/death_moment.webp')}
                   alt=""
                   className="w-full h-full object-cover"
                   style={{

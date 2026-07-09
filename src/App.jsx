@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useGameStore } from './core/useGameStore'
 import { hasApiKey } from './core/apiConfig'
+import { assetPath } from './core/assetPath'
 import Intro from './scenes/Intro'
 import Title from './scenes/Title'
 import Surgery from './scenes/Surgery'
@@ -97,7 +98,7 @@ export default function App() {
       case 'city_night':
         return (
           <TransitionScene
-            bgImage="/assets/scenes/city_tower_night.jpg"
+            bgImage={assetPath('assets/scenes/city_tower_night.jpg')}
             nextScene="assassin"
             dialogues={CITY_NIGHT_DIALOGUES}
             identityStep={1}
@@ -108,7 +109,7 @@ export default function App() {
       case 'building_entrance':
         return (
           <TransitionScene
-            bgImage="/assets/scenes/building_entrance.jpg"
+            bgImage={assetPath('assets/scenes/building_entrance.jpg')}
             nextScene="penthouse"
             dialogues={BUILDING_ENTRANCE_DIALOGUES}
             identityStep={2}

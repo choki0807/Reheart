@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useGameStore } from '../core/useGameStore'
+import { assetPath } from '../core/assetPath'
 
 export default function Title() {
   const { setScene } = useGameStore()
@@ -46,7 +47,7 @@ export default function Title() {
             transition={{ duration: 2, delay: 0.5 }}
           >
             <img
-              src="/assets/scenes/title_screen.webp"
+              src={assetPath('assets/scenes/title_screen.webp')}
               alt=""
               className="w-full h-full object-cover"
               style={{

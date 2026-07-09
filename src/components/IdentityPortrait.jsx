@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useGameStore } from '../core/useGameStore'
+import { assetPath } from '../core/assetPath'
 
 // ═══════════════════════════════════════════
 // 身份画像组件 - 根据当前幕自动加载对应画像
@@ -27,7 +28,7 @@ const SCENE_PORTRAIT_MAP = {
   // ending_a, ending_b 等不在映射中 → 返回 null
 }
 
-const PORTRAIT_BASE_PATH = '/assets/portraits'
+const PORTRAIT_BASE_PATH = assetPath('assets/portraits')
 
 export default function IdentityPortrait() {
   const { scene, showProloguePortrait, setShowProloguePortrait } = useGameStore()

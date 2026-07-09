@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useGameStore } from '../core/useGameStore'
 import Portrait from '../components/Portrait'
+import { assetPath } from '../core/assetPath'
 
 // ═══════════════════════════════════════════
 // 第四幕：剪裁噩梦 → 灵魂质询 → 终局
@@ -248,7 +249,7 @@ export default function Penthouse() {
   // ═══ 渲染剪裁噩梦阶段 ═══
   const renderBetrayalPhase = () => {
     const step = getCurrentBetrayalStep()
-    const bgImage = showShock ? '/assets/scenes/an_an_shock.webp' : '/assets/scenes/bedroom_main.webp'
+    const bgImage = showShock ? assetPath('assets/scenes/an_an_shock.webp') : assetPath('assets/scenes/bedroom_main.webp')
 
     return (
       <>
@@ -378,7 +379,7 @@ export default function Penthouse() {
           transition={{ duration: 2 }}
         >
           <motion.img
-            src="/assets/scenes/beating_heart_core.jpg"
+            src={assetPath('assets/scenes/beating_heart_core.jpg')}
             alt=""
             className="w-64 h-64 object-contain"
             animate={{
@@ -447,7 +448,7 @@ export default function Penthouse() {
         {/* 心脏继续跳动 */}
         <motion.div className="absolute inset-0 flex items-center justify-center opacity-40">
           <motion.img
-            src="/assets/scenes/beating_heart_core.jpg"
+            src={assetPath('assets/scenes/beating_heart_core.jpg')}
             alt=""
             className="w-48 h-48 object-contain"
             animate={{
@@ -526,7 +527,7 @@ export default function Penthouse() {
   const renderEndingPhase = () => {
     const isA = endingType === 'A'
     const lines = isA ? ENDING_A_LINES : ENDING_B_LINES
-    const bgImage = isA ? '/assets/scenes/ending_remain.webp' : '/assets/scenes/ending_shatter.webp'
+    const bgImage = isA ? assetPath('assets/scenes/ending_remain.webp') : assetPath('assets/scenes/ending_shatter.webp')
 
     return (
       <>
